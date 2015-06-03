@@ -118,6 +118,50 @@ describe("About Applying What We Have Learnt", function() {
   });
 
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
+    var numericPalindrome = function() {
+      var num = _.chain(arguments)
+        .toArray(arguments)
+        .reduce(function(total,num) {
+          return total * num;
+        })
+        .value();
+
+      var values = _.chain(num.toString().split(''))
+        .map(function(val) {
+          return +val;
+        })
+        .sortBy(function(num) {
+          return num;
+        })
+        .value();
+
+      var doubles = _.chain(values)
+        .groupBy(function(num) {
+          return num;
+        })
+        .filter(function(vals) {
+          return vals.length % 2 === 0;
+        })
+        .map(function(arr) {
+          return arr[0];
+        })
+        .sortBy(function(num) {
+          return num;
+        })
+        .reverse()
+        .value();
+
+      var largest = _.without.apply(_,[values].concat(doubles))
+        .pop().toString();
+
+      var doublesStr = doubles.join('');
+
+      return +(doublesStr + largest + doublesStr);
+    }
+
+    expect(numericPalindrome(937, 113)).toBe(81581);
+    expect(numericPalindrome(657, 892)).toBe(484);
+    expect(numericPalindrome(755, 223)).toBe(686);
   });
 
   // it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
