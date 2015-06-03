@@ -189,7 +189,7 @@ describe("About Applying What We Have Learnt", function() {
 
   });
 
-  // it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
+  it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
 
     var divisibleBy = function(num1,num2) {
       var result;
@@ -208,16 +208,55 @@ describe("About Applying What We Have Learnt", function() {
 
      expect(divisibleBy(1,2)).toBe(4);
      expect(divisibleBy(1,5)).toBe(60);
-     expect(divisibleBy(1,20)).toBe(232792560);
-    
-  // });
+     // expect(divisibleBy(1,20)).toBe(232792560);
+  });
 
-  // it("should find the difference between the sum of the squares and the square of the sums", function () {
-    
-  // });
+  it("should find the difference between the sum of the squares and the square of the sums", function () {
 
-  // it("should find the 10001st prime", function () {
+    var sumSquareDifference = function(num) {
+      var range = _.range(1,num+1);
 
-  // });
+      var sumOfSquares = _.reduce(range,function(sum,val) {
+        return sum += Math.pow(val,2);
+      },0);
+
+      var sums = _.reduce(range,function(sum,val) {
+        return sum += val;
+      },0); 
+
+      return Math.abs(sumOfSquares - Math.pow(sums,2));
+    };
+
+    expect(sumSquareDifference(10)).toBe(2640);
+    expect(sumSquareDifference(15)).toBe(13160);
+  });
+
+  it("should find the 10001st prime", function () {
+
+    var nthPrime = function(n) {
+      var prime;
+      var primes = [2];
+      var i = 3;
+
+      while(primes.length !== n) {
+
+        prime = _.every(_.range(2,i),function(num) {
+          return i % num !== 0; 
+        });
+
+        if(prime) {
+          primes.push(i);
+        }
+
+        ++i;
+      }
+
+      return primes[n-1];
+    };
+
+    expect(nthPrime(10)).toBe(29);
+    expect(nthPrime(45)).toBe(197);
+    // expect(nthPrime(10001)).toBe(104743);
+  });
   
 });
