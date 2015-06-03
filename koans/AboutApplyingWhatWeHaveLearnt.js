@@ -120,6 +120,9 @@ describe("About Applying What We Have Learnt", function() {
   it("should find the largest palindrome made from the product of any numbers", function () {
     var numericPalindrome = function() {
 
+      var frontStr, backStr;
+      var strDoubles = [];
+
       var sum = _.chain(arguments)
         .toArray(arguments)
         .reduce(function(total,num) {
@@ -136,8 +139,6 @@ describe("About Applying What We Have Learnt", function() {
         })
         .value();
 
-      var doubles = [];
-
       var totalDoubles = _.chain(values)
         .groupBy(function(num) {
           return num;
@@ -152,11 +153,18 @@ describe("About Applying What We Have Learnt", function() {
             arr.pop();
           }
 
-          doubles = doubles.concat(arr.slice(0,arr.length/2));
+          strDoubles = strDoubles.concat(arr.slice(0,arr.length/2));
 
           return combinedArr.concat(arr);
         },[])
         .value();
+
+      strDoubles = _.sortBy(strDoubles,function(num) {
+        return num;
+      });
+
+      backStr = strDoubles.join('');
+      frontStr = backStr.split('').reverse().join('');
 
       var largest = _.chain(values)
         .reject(function(num) {
@@ -167,13 +175,6 @@ describe("About Applying What We Have Learnt", function() {
         })
         .max()
         .value();
-
-      doubles = _.sortBy(doubles,function(num) {
-        return num;
-      });
-
-      var backStr = doubles.join('');
-      var frontStr = doubles.reverse().join('');
 
       return +(frontStr + largest + backStr);
     }
@@ -189,7 +190,25 @@ describe("About Applying What We Have Learnt", function() {
   });
 
   // it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
-      
+
+    var divisibleBy = function(num1,num2) {
+      var result;
+      var i = num2;
+      var range = _.range(num1,num2+1);
+
+      while(!result) {
+        ++i;
+        result = _.every(range,function(num) {
+          return i % num === 0;
+        });
+      }
+
+      return i;
+    };
+
+     expect(divisibleBy(1,2)).toBe(4);
+     expect(divisibleBy(1,5)).toBe(60);
+     expect(divisibleBy(1,20)).toBe(232792560);
     
   // });
 
