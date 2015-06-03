@@ -117,16 +117,17 @@ describe("About Applying What We Have Learnt", function() {
 
   });
 
-  it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
+  it("should find the largest palindrome made from the product of any numbers", function () {
     var numericPalindrome = function() {
-      var num = _.chain(arguments)
+
+      var sum = _.chain(arguments)
         .toArray(arguments)
         .reduce(function(total,num) {
           return total * num;
         })
         .value();
 
-      var values = _.chain(num.toString().split(''))
+      var values = _.chain(sum.toString().split(''))
         .map(function(val) {
           return +val;
         })
@@ -135,34 +136,56 @@ describe("About Applying What We Have Learnt", function() {
         })
         .value();
 
-      var doubles = _.chain(values)
+      var doubles = [];
+
+      var totalDoubles = _.chain(values)
         .groupBy(function(num) {
           return num;
         })
         .filter(function(vals) {
-          return vals.length % 2 === 0;
+          return vals.length > 1;
         })
-        .map(function(arr) {
-          return arr[0];
-        })
-        .sortBy(function(num) {
-          return num;
-        })
-        .reverse()
+        .reduce(function(combinedArr,arr) {
+          var amount, result;
+
+          while (arr.length % 2 !== 0) {
+            arr.pop();
+          }
+
+          doubles = doubles.concat(arr.slice(0,arr.length/2));
+
+          return combinedArr.concat(arr);
+        },[])
         .value();
 
-      var largest = _.without.apply(_,[values].concat(doubles))
-        .pop().toString();
+      var largest = _.chain(values)
+        .reject(function(num) {
+          if( totalDoubles.indexOf(num) !== -1 ) {
+            totalDoubles.splice(totalDoubles.indexOf(num),1);
+            return true;
+          }
+        })
+        .max()
+        .value();
 
-      var doublesStr = doubles.join('');
+      doubles = _.sortBy(doubles,function(num) {
+        return num;
+      });
 
-      return +(doublesStr + largest + doublesStr);
+      var backStr = doubles.join('');
+      var frontStr = doubles.reverse().join('');
+
+      return +(frontStr + largest + backStr);
     }
 
-    expect(numericPalindrome(937,113)).toBe(81581);
+    expect(numericPalindrome(2824,2399)).toBe(7764677);
+    expect(numericPalindrome(888,91)).toBe(80808);
+    expect(numericPalindrome(937,113)).toBe(81518);
     expect(numericPalindrome(657,892)).toBe(484);
     expect(numericPalindrome(755,223)).toBe(686);
-    expect(numericPalindrome(57,62,23)).toBe(82182);
+    expect(numericPalindrome(57,62,23)).toBe(82128);
+    expect(numericPalindrome(48,9,3,67)).toBe(868);
+
   });
 
   // it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
