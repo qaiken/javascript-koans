@@ -159,9 +159,10 @@ describe("About Applying What We Have Learnt", function() {
       return +(doublesStr + largest + doublesStr);
     }
 
-    expect(numericPalindrome(937, 113)).toBe(81581);
-    expect(numericPalindrome(657, 892)).toBe(484);
-    expect(numericPalindrome(755, 223)).toBe(686);
+    expect(numericPalindrome(937,113)).toBe(81581);
+    expect(numericPalindrome(657,892)).toBe(484);
+    expect(numericPalindrome(755,223)).toBe(686);
+    expect(numericPalindrome(57,62,23)).toBe(82182);
   });
 
   // it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
