@@ -149,7 +149,7 @@ describe("About Applying What We Have Learnt", function() {
         .reduce(function(combinedArr,arr) {
           var amount, result;
 
-          while (arr.length % 2 !== 0) {
+          if( arr.length % 2 !== 0 ) {
             arr.pop();
           }
 
