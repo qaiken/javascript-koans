@@ -176,9 +176,11 @@ describe("About Applying What We Have Learnt", function() {
         .max()
         .value();
 
-      return +(frontStr + largest + backStr);
-    }
+      return +(frontStr + (largest !== -Infinity ? largest : '') + backStr);
+    };
 
+    expect(numericPalindrome(2211,1)).toBe(2112);
+    expect(numericPalindrome(11,1)).toBe(11);
     expect(numericPalindrome(2824,2399)).toBe(7764677);
     expect(numericPalindrome(888,91)).toBe(80808);
     expect(numericPalindrome(937,113)).toBe(81518);
